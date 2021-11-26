@@ -1,10 +1,16 @@
+// https://firebase.google.com/docs/firestore/manage-data/add-data
 import { initializeApp } from 'firebase/app';
 import {
   getFirestore,
   collection,
+  getDocs,
+  addDoc,
+  deleteDoc,
   onSnapshot,
-  addDoc
+  updateDoc
 } from 'firebase/firestore';
+
+import { uns } from 'firebase/auth';
 
 const firebaseConfig = {
   apiKey: 'AIzaSyBIOGmaDX8CyJ-1Sl9ZLK5Gd3oaGoE14MI',
@@ -26,4 +32,19 @@ const db = getFirestore();
 // collection ref - reference to all documents in the database
 const collectionRef = collection(db, 'rooms');
 
-export { collectionRef, onSnapshot, addDoc };
+// async function getRooms(db) {
+//   const roomsCol = collection(db, 'rooms');
+//   const roomSnapshot = await getDocs(roomsCol);
+//   const roomList = roomSnapshot.docs.map((doc) => doc.data());
+//   return roomList;
+// }
+
+// // Add a new document in collection "rooms"
+// async function setNewRoomName(roomName) {
+//   const roomRef = collection(db, 'rooms');
+//   await addDoc(roomRef, {
+//     name: roomName
+//   });
+// }
+
+export { collectionRef, db };

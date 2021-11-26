@@ -4,22 +4,30 @@ import ChatIcon from '@material-ui/icons/Chat';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
 import { SearchOutlined } from '@material-ui/icons';
 import SidebarChat from './SidebarChat';
-import './Sidebar.css'
+import './Sidebar.css';
 import { useState, useEffect } from 'react';
-import db, { getRooms } from './firebaseDB';
+import { collectionRef, onSnapshot } from './firebaseDB';
 
 function Sidebar() {
-  const [rooms, setRooms] = useState([])
+  const [rooms, setRooms] = useState([]);
+  // const [newRoom, setNewRoom] = useState('');
 
   useEffect(() => {
-    const data = async () => {
-      const rooms = await getRooms(db);
-      setRooms(rooms)
-    }
+    // const unsubRoomsCol = onSnapshot(collectionRef, (snapshot) => {
+    onSnapshot(collectionRef, (snapshot) => {
+      let rooms = [];
+      snapshot.docs.forEach((doc) => {
+        rooms.push({ ...doc.data(), id: doc.id });
+      });
+      setRooms(rooms);
+    });
+  }, []);
 
-    data();
-  }, [])
-  
+  const addNewChat = (newRoom) => {
+    console.log(newRoom);
+    // setNewRoom(newRoom);
+  };
+
   return (
     <div className="sidebar">
       {/* HEADER */}
@@ -49,14 +57,12 @@ function Sidebar() {
       {/* SIDEBAR CHATS */}
       <div className="sidebar__chats">
         <SidebarChat addNewChat />
-        {
-          rooms.map(room => {
-            return <SidebarChat key={room.id} name={room.name} />
-          })
-        }
+        {rooms.map((room) => {
+          return <SidebarChat key={room.id} id={room.id} name={room.name} />;
+        })}
       </div>
     </div>
-  )
+  );
 }
 
 export default Sidebar;
