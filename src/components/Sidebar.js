@@ -4,23 +4,26 @@ import ChatIcon from '@material-ui/icons/Chat';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
 import { SearchOutlined } from '@material-ui/icons';
 import SidebarChat from './SidebarChat';
-import './Sidebar.css';
+import '../styles/Sidebar.css';
 import { useState, useEffect } from 'react';
-import { collectionRef, onSnapshot } from './firebaseDB';
+import { collectionRef, onSnapshot } from '../firebaseDB';
 
 function Sidebar() {
   const [rooms, setRooms] = useState([]);
   // const [newRoom, setNewRoom] = useState('');
 
   useEffect(() => {
-    // const unsubRoomsCol = onSnapshot(collectionRef, (snapshot) => {
-    onSnapshot(collectionRef, (snapshot) => {
+    const unsubRoomsCol = onSnapshot(collectionRef, (snapshot) => {
       let rooms = [];
       snapshot.docs.forEach((doc) => {
         rooms.push({ ...doc.data(), id: doc.id });
       });
       setRooms(rooms);
     });
+
+    return () => {
+      unsubRoomsCol();
+    };
   }, []);
 
   const addNewChat = (newRoom) => {

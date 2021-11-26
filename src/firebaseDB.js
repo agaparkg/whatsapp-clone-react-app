@@ -3,7 +3,9 @@ import {
   getFirestore,
   collection,
   onSnapshot,
-  addDoc
+  addDoc,
+  getDoc,
+  doc
 } from 'firebase/firestore';
 
 const firebaseConfig = {
@@ -26,4 +28,4 @@ const db = getFirestore();
 // collection ref - reference to all documents in the database
 const collectionRef = collection(db, 'rooms');
 
-export { collectionRef, onSnapshot, addDoc };
+export { collectionRef, onSnapshot, addDoc, getDoc, doc, db };
