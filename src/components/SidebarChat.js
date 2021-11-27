@@ -2,10 +2,44 @@ import { Link } from 'react-router-dom';
 import { Avatar } from '@material-ui/core';
 import React, { useEffect, useState } from 'react';
 import '../styles/SidebarChat.css';
-import { collectionRef, addDoc } from '../firebaseDB';
+import { collectionRef, db } from '../firebaseDB';
+import {
+  collection,
+  query,
+  addDoc,
+  onSnapshot,
+  orderBy
+} from 'firebase/firestore';
 
 export default function SidebarChat({ id, name, addNewChat }) {
   const [seed, setSeed] = useState('');
+  const [messages, setMessages] = useState('');
+
+  useEffect(() => {
+    let unsubMessages;
+
+    if (id) {
+      const messagesRef = collection(db, 'rooms/' + id + '/messages');
+      const messagesQuery = query(messagesRef, orderBy('timestamp', 'desc'));
+      unsubMessages = onSnapshot(
+        messagesQuery,
+        (snapshot) => {
+          console.log(
+            snapshot.docs.map((doc) => ({ ...doc.data(), id: doc.id }))
+          );
+          setMessages(
+            snapshot.docs.map((doc) => ({ ...doc.data(), id: doc.id }))
+          );
+        },
+        (error) => {
+          console.log(error);
+        }
+      );
+    }
+    return () => {
+      unsubMessages();
+    };
+  }, [id]);
 
   useEffect(() => {
     setSeed(Math.floor(Math.random() * 5000));
@@ -29,7 +63,7 @@ export default function SidebarChat({ id, name, addNewChat }) {
         <Avatar src={`https://avatars.dicebear.com/api/human/${seed}.svg`} />
         <div className="sidebar-chat__info">
           <h2>{name}</h2>
-          <p>Last message...</p>
+          <p>{messages[0]?.message}</p>
         </div>
       </div>
     </Link>
