@@ -4,14 +4,16 @@ import { AttachFile, InsertEmoticon, SearchOutlined } from '@material-ui/icons';
 import { Avatar, IconButton } from '@material-ui/core';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
 import MicIcon from '@material-ui/icons/Mic';
-import { onSnapshot, doc, db } from '../firebaseDB';
+import { db } from '../firebaseDB';
 import '../styles/Chat.css';
 import {
   orderBy,
   query,
   collection,
   addDoc,
-  serverTimestamp
+  doc,
+  serverTimestamp,
+  onSnapshot
 } from '@firebase/firestore';
 import { useStateValue } from '../StateProvider';
 
@@ -37,9 +39,6 @@ export default function Chat() {
       unsubMessages = onSnapshot(
         messagesQuery,
         (snapshot) => {
-          console.log(
-            snapshot.docs.map((doc) => ({ ...doc.data(), id: doc.id }))
-          );
           setMessages(
             snapshot.docs.map((doc) => ({ ...doc.data(), id: doc.id }))
           );

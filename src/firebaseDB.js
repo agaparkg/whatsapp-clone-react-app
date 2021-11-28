@@ -1,14 +1,6 @@
 import { initializeApp } from 'firebase/app';
-import {
-  getFirestore,
-  collection,
-  onSnapshot,
-  addDoc,
-  getDoc,
-  doc,
-  query
-} from 'firebase/firestore';
-import { getAuth, signInWithPopup, GoogleAuthProvider } from 'firebase/auth';
+import { getFirestore, collection } from 'firebase/firestore';
+import { getAuth, GoogleAuthProvider } from 'firebase/auth';
 
 const firebaseConfig = {
   apiKey: 'AIzaSyBIOGmaDX8CyJ-1Sl9ZLK5Gd3oaGoE14MI',
@@ -31,16 +23,4 @@ const provider = new GoogleAuthProvider();
 // collection ref - reference to all documents in the database
 const collectionRef = collection(db, 'rooms');
 
-export {
-  collectionRef,
-  onSnapshot,
-  addDoc,
-  getDoc,
-  doc,
-  db,
-  provider,
-  signInWithPopup,
-  auth,
-  collection,
-  query
-};
+export { collectionRef, db, provider, auth };

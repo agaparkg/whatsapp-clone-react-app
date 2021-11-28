@@ -6,7 +6,8 @@ import { SearchOutlined } from '@material-ui/icons';
 import SidebarChat from './SidebarChat';
 import '../styles/Sidebar.css';
 import { useState, useEffect } from 'react';
-import { collectionRef, onSnapshot } from '../firebaseDB';
+import { collectionRef } from '../firebaseDB';
+import { onSnapshot } from 'firebase/firestore';
 import { useStateValue } from '../StateProvider';
 
 function Sidebar() {
@@ -26,11 +27,6 @@ function Sidebar() {
       unsubRoomsCol();
     };
   }, []);
-
-  const addNewChat = (newRoom) => {
-    console.log(newRoom);
-    // setNewRoom(newRoom);
-  };
 
   return (
     <div className="sidebar">

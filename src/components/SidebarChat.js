@@ -24,9 +24,6 @@ export default function SidebarChat({ id, name, addNewChat }) {
       unsubMessages = onSnapshot(
         messagesQuery,
         (snapshot) => {
-          console.log(
-            snapshot.docs.map((doc) => ({ ...doc.data(), id: doc.id }))
-          );
           setMessages(
             snapshot.docs.map((doc) => ({ ...doc.data(), id: doc.id }))
           );
