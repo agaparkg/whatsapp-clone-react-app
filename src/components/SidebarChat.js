@@ -10,18 +10,19 @@ import {
   onSnapshot,
   orderBy
 } from 'firebase/firestore';
+import { Button } from 'reactstrap';
 
 export default function SidebarChat({ id, name, addNewChat }) {
   const [seed, setSeed] = useState('');
   const [messages, setMessages] = useState('');
 
   useEffect(() => {
-    let unsubMessages;
+    // let unsubMessages;
 
     if (id) {
       const messagesRef = collection(db, 'rooms/' + id + '/messages');
       const messagesQuery = query(messagesRef, orderBy('timestamp', 'desc'));
-      unsubMessages = onSnapshot(
+      var unsubMessages = onSnapshot(
         messagesQuery,
         (snapshot) => {
           setMessages(
@@ -62,6 +63,9 @@ export default function SidebarChat({ id, name, addNewChat }) {
           <h2>{name}</h2>
           <p>{messages[0]?.message}</p>
         </div>
+        <Button color="secondary">
+          <i class="fa fa-ellipsis-v"></i>
+        </Button>
       </div>
     </Link>
   ) : (

@@ -20,6 +20,7 @@ initializeApp(firebaseConfig);
 const db = getFirestore();
 const auth = getAuth();
 const provider = new GoogleAuthProvider();
+
 // collection ref - reference to all documents in the database
 const collectionRef = collection(db, 'rooms');
 
